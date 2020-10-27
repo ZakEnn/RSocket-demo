@@ -1,0 +1,10 @@
+---
+local:
+  server:
+    port: 8080
+
+spring:
+  rsocket:
+    server:
+      mapping-path: /tweetsocket
+      transport: websocket 
