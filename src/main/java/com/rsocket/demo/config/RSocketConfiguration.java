@@ -17,13 +17,10 @@ public class RSocketConfiguration {
 	@LocalServerPort
 	private int port;
 
-	private RSocketRequester.Builder rsocketRequester;
-
 	@Bean
-	public Mono<RSocketRequester> rSocketRequester(RSocketStrategies rSocketStrategies,
-			RSocketProperties rSocketProps) {
+	public Mono<RSocketRequester> rSocketRequester(RSocketStrategies rSocketStrategies, RSocketProperties rSocketProps,
+			RSocketRequester.Builder rsocketRequester) {
 		return rsocketRequester.rsocketStrategies(rSocketStrategies).connectWebSocket(getURI(rSocketProps));
-
 	}
 
 	private URI getURI(RSocketProperties rSocketProps) {
