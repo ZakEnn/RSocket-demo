@@ -6,9 +6,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
+@ToString
 public class Tweet {
 	private String id;
 	private String author;
@@ -16,8 +18,11 @@ public class Tweet {
 	private LocalDate date;
 
 	public static Tweet instanceOf(String author, String body) {
+		return new Tweet(UUID.randomUUID().toString(), author, body, getRandomDate());
+	}
+
+	private static LocalDate getRandomDate() {
 		ThreadLocalRandom tlr = ThreadLocalRandom.current();
-		return new Tweet(UUID.randomUUID().toString(), author, body,
-				LocalDate.of(tlr.nextInt(1999, 2020), tlr.nextInt(1, 12), tlr.nextInt(1, 31)));
+		return LocalDate.of(tlr.nextInt(1999, 2020), tlr.nextInt(1, 12), tlr.nextInt(1, 31));
 	}
 }
