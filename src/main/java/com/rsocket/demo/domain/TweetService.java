@@ -3,7 +3,6 @@ package com.rsocket.demo.domain;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,7 @@ public class TweetService {
 	};
 
 	public Flux<Tweet> getByAuthor(String author) {
-		return Flux.fromStream(new Random().ints(10).mapToObj(value -> tweets.get(author)))
-				.delayElements(Duration.ofSeconds(1));
+		return Flux.interval(Duration.ZERO, Duration.ofSeconds(1)).map(value -> tweets.get(author));
 	}
 
 }
