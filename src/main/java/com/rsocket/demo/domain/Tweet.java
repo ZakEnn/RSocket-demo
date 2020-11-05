@@ -1,6 +1,7 @@
 package com.rsocket.demo.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,10 +15,10 @@ import lombok.ToString;
 public class Tweet {
 	private String id;
 	private String author;
-	private String body;
+	private List<String> body;
 	private LocalDate date;
 
-	public static Tweet instanceOf(String author, String body) {
+	public static Tweet instanceOf(String author, List<String> body) {
 		return new Tweet(UUID.randomUUID().toString(), author, body, getRandomDate());
 	}
 
