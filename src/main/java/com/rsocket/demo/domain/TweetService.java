@@ -1,6 +1,7 @@
 package com.rsocket.demo.domain;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,23 +20,22 @@ import twitter4j.conf.ConfigurationBuilder;
 @Service
 @CommonsLog
 public class TweetService {
-	private Twitter twitter =  getTweeterInstance();
+	private Twitter twitter = getTweeterInstance();
 
 	public Flux<Tweet> getByAuthor(String author) {
-		return Flux.interval(Duration.ZERO, Duration.ofSeconds(1)).map(value -> {
-			try {
-				return Tweet.instanceOf(author, searchtweets(author));
-			} catch (TwitterException e) {
-				log.warn(e.getMessage());
-				return null;
-			}
-		});
+		return Flux.interval(Duration.ZERO, Duration.ofSeconds(1))
+				.map(value -> Tweet.instanceOf(author, searchtweets(author)));
 	}
 
-	public List<String> searchtweets(String body) throws TwitterException {
+	public List<String> searchtweets(String body) {
 		Query query = new Query("source:twitter4j " + body);
-		QueryResult result = twitter.search(query);
-		return result.getTweets().stream().map(Status::getText).collect(Collectors.toList());
+		try {
+			QueryResult result = twitter.search(query);
+			return result.getTweets().stream().map(Status::getText).collect(Collectors.toList());
+		} catch (TwitterException e) {
+			log.warn(e.getMessage());
+			return Collections.emptyList();
+		}
 	}
 
 	public Twitter getTweeterInstance() {
