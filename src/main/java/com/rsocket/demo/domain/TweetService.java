@@ -1,6 +1,7 @@
 package com.rsocket.demo.domain;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,15 @@ public class TweetService {
 				.setOAuthAccessToken("token").setOAuthAccessTokenSecret("token_secret");
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		return tf.getInstance();
+	}
+
+	public Tweet sendMessage(Tweet request) {
+		log.info("Received request-response request: " + request);
+		List<String> quotes = new ArrayList<>();
+		quotes.add("dry");
+		quotes.add("kiss");
+		quotes.add("yagni");
+		return Tweet.instanceOf("uncle bob", quotes);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.rsocket.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,4 +22,8 @@ public class TweetSocketController {
 		return tweetService.getByAuthor(author);
 	}
 
+	@MessageMapping("request-response")
+	public Tweet requestResponse(Tweet request) {
+		return tweetService.sendMessage(request);
+	}
 }
